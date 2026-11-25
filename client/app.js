@@ -1,4 +1,4 @@
-const API_BASE = "__API_BASE__";
+const API_BASE = "https://reviewhub-api.runasp.net";
 
 const state = {
   kind: "",
