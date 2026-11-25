@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ReviewHub — Rate restaurants & movies</title>
+<link rel="stylesheet" href="styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">⭐ <span>ReviewHub</span></div>
+  <nav class="topnav">
+    <button class="nav-btn" id="nav-home">Home</button>
+    <button class="nav-btn" id="nav-mine">My Reviews</button>
+    <button class="nav-btn" id="nav-auth">Sign in</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>What's worth your <span class="accent">time & taste?</span></h1>
+  <p>Honest ratings for restaurants and movies, from people like you.</p>
+  <input id="search" class="search" type="search" placeholder="Search places or movies…" />
+  <div class="tabs">
+    <button class="tab active" data-kind="">All</button>
+    <button class="tab" data-kind="Restaurant">🍽️ Restaurants</button>
+    <button class="tab" data-kind="Movie">🎬 Movies</button>
+  </div>
+</section>
+
+<main id="view-home">
+  <div id="place-grid" class="grid"></div>
+</main>
+
+<main id="view-mine" class="hidden">
+  <h2 class="section-title">My Reviews</h2>
+  <div id="mine-list" class="mine"></div>
+</main>
+
+<div class="modal-backdrop hidden" id="place-modal">
+  <div class="modal">
+    <div id="place-detail"></div>
+    <button class="icon-btn modal-close" data-close="place-modal">✕</button>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="auth-modal">
+  <div class="modal small">
+    <h3 id="auth-title">Sign in</h3>
+    <div id="auth-error" class="error hidden"></div>
+    <input id="auth-name" class="input hidden" placeholder="Your name" />
+    <input id="auth-email" class="input" placeholder="Email" type="email" />
+    <input id="auth-password" class="input" placeholder="Password (min 6 chars)" type="password" />
+    <button class="primary" id="auth-submit">Sign in</button>
+    <button class="link" id="auth-toggle">Need an account? Register</button>
+    <button class="icon-btn modal-close" data-close="auth-modal">✕</button>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<script src="app.js"></script>
+</body>
+</html>

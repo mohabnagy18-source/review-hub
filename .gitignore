@@ -1,0 +1,10 @@
+bin/
+obj/
+out/
+publish/
+*.user
+.vs/
+appsettings.Production.json
+*.local.json
+node_modules/
+.DS_Store

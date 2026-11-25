@@ -1,0 +1,6 @@
+@ReviewHub.Api_HostAddress = http://localhost:5155
+
+GET {{ReviewHub.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
