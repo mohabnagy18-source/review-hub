@@ -8,7 +8,9 @@ public static class SeedData
     public static async Task InitializeAsync(AppDbContext db)
     {
         await db.Database.EnsureCreatedAsync();
-        if (await db.Places.AnyAsync()) return;
+        if (await db.Reviews.AnyAsync()) return;
+        if (!await db.Places.AnyAsync())
+        {
 
         var places = new List<Place>
         {
@@ -28,10 +30,21 @@ public static class SeedData
 
         db.Places.AddRange(places);
         await db.SaveChangesAsync();
+        }
 
-        var demo = new User { Name = "Demo Reviewer", Email = "demo@reviewhub.app", PasswordHash = "100000.demo.demo" };
-        db.Users.Add(demo);
+        var placesList = await db.Places.ToListAsync();
+        var demos = new List<User>
+        {
+            new() { Name = "Sara M.", Email = "sara@demo.reviewhub.app", PasswordHash = "100000.demo.demo" },
+            new() { Name = "Omar K.", Email = "omar@demo.reviewhub.app", PasswordHash = "100000.demo.demo" },
+            new() { Name = "Lena T.", Email = "lena@demo.reviewhub.app", PasswordHash = "100000.demo.demo" },
+            new() { Name = "Demo Reviewer", Email = "demo@reviewhub.app", PasswordHash = "100000.demo.demo" }
+        };
+        var existingEmails = await db.Users.Select(u => u.Email).ToListAsync();
+        foreach (var u in demos.Where(u => !existingEmails.Contains(u.Email))) db.Users.Add(u);
         await db.SaveChangesAsync();
+        demos = await db.Users.Where(u => u.Email.EndsWith("@demo.reviewhub.app") || u.Email == "demo@reviewhub.app").ToListAsync();
+        while (demos.Count < 4) demos.Add(demos[0]);
 
         var rnd = new Random(42);
         var samples = new (int Rating, string Text)[]
@@ -46,7 +59,7 @@ public static class SeedData
             (4, "Solid experience, a couple of small misses but worth it.")
         };
 
-        foreach (var p in places)
+        foreach (var p in placesList)
         {
             var count = rnd.Next(2, 5);
             for (var i = 0; i < count; i++)
@@ -55,7 +68,7 @@ public static class SeedData
                 db.Reviews.Add(new Review
                 {
                     PlaceId = p.Id,
-                    UserId = demo.Id,
+                    UserId = demos[i].Id,
                     Rating = s.Rating,
                     Text = s.Text,
                     CreatedAt = DateTime.UtcNow.AddDays(-rnd.Next(1, 60))
